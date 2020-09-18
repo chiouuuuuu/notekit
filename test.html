@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #rect {
+      width: 100px;
+      height: 100px;
+      background: #000;
+      /* transform: rotateX(100deg) */
+    }
+
+    #inside {
+      width: 50px;
+      height: 50px;
+      background: #f00;
+      border: 2px solid #fff;
+      padding: 1px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='rect'>
+    <div id='inside'></div>
+  </div>
+  <input type="file" accept="application/json">
+  <button id="btn">btn</button>
+  <script>
+    let a = '123';
+    let b = 'a = ' + (a === '123') ? '8' : '9';
+    console.log(b)
+  </script>
+  <script>
+    let domReat = document.getElementById('rect');
+    let domInside = document.getElementById('inside');
+    console.log(domInside)
+    domReat.addEventListener('click', function (e) {
+      console.log('rect');
+    });
+    domInside.addEventListener('click', function (e) {
+      console.log('inside')
+    });
+
+    let btn = document.getElementById('btn');
+
+    // btn.onclick=function(){
+    //   console.log(domInside)
+    // }
+
+    let domInput = document.querySelector('input')
+    domInput.onchange = (e) => {
+      let file = e.srcElement.files;
+      let filereader = new FileReader();
+      filereader.onload = function (e) {
+        console.log(e.target.result)
+      }
+      let txt = filereader.readAsText(file[0])
+    }
+  </script>
+</body>
+
+</html>

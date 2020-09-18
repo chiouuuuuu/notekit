@@ -1,0 +1,9 @@
+export const ADDEVENT = 'ADDEVENT';
+// export const EVENTDONE = 'EVENTDONE';
+// export const EVENTTODO = 'EVENTTODO';
+// export const EVENTCANCEL = 'EVENTCANCEL';
+export const MOVEEVENT = 'MOVEEVENT';
+export const DELEVENT = 'DELEVENT';
+export const CLEAREVENT = 'CLEAREVENT';
+export const EDITEVENT = 'EDITEVENT';
+export const UPLOADEVENT = 'UPLOADEVENT';

@@ -1,0 +1,117 @@
+$cornflowerBlue_color:#6495ed;
+$cornflowerBlue_color_hover:#3e7be9;
+
+$blue_color:#00b0f0;
+$blue_color_hover:#08aae5;
+
+$pink_color:#f39894;
+$pink_color_hover:#d77672;
+
+$green_color:#00d1b2;
+$green_color_hover:#18c2a9;
+
+$orange_color:#f4b976;
+$orange_color_hover:#e9ae6a;
+
+$cyan_color:#26b6be;
+$cyan_hover_color:#1facb4;
+
+@mixin theme($bg, $bg_hover) {
+  header {
+    background: $bg;
+  }
+
+  .add-input:focus {
+    border-color: $bg;
+  }
+
+  .add-btn {
+    background: $bg;
+    border: 1px solid $bg_hover;
+
+    &:hover {
+      background: $bg_hover;
+    }
+  }
+
+  a.t-btn {
+    span.desc {
+      background: $bg;
+
+      &:before,
+      &:after {
+        background: $bg;
+      }
+    }
+  }
+
+  .list-item {
+    .list-tab {
+      background: $bg;
+    }
+  }
+
+  .sidebar {
+    .btn {
+      background: $bg;
+      border-color: $bg_hover;
+    }
+  }
+
+  .table {
+    .search-input:focus {
+      outline-color: $bg_hover;
+    }
+
+    .table-content {
+
+      tr:hover {
+        background-color: transparentize($bg_hover, 0.9)
+      }
+
+      .btn-theme {
+        background: $bg;
+        border: 1px solid $bg_hover;
+      }
+
+      .edit-input:focus {
+        border-color: $bg_hover;
+      }
+    }
+  }
+
+  .dialog {
+    .conf {
+      background: $bg;
+    }
+  }
+
+  // .file-btn {
+  //   color: #fff;
+  //   background: $bg_hover;
+  // }
+}
+
+.cornflowerBlue {
+  @include theme($cornflowerBlue_color, $cornflowerBlue_color_hover);
+}
+
+.blue {
+  @include theme($blue_color, $blue_color_hover);
+}
+
+.pink {
+  @include theme($pink_color, $pink_color_hover);
+}
+
+.green {
+  @include theme($green_color, $green_color_hover);
+}
+
+.orange {
+  @include theme($orange_color, $orange_color_hover);
+}
+
+.cyan {
+  @include theme($cyan_color, $cyan_hover_color)
+}
