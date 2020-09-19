@@ -20,25 +20,25 @@ export default {
   data() {
     return {
       // json: '',
-    }
+    };
   },
   methods: {
     conf() {
-      this.$emit('confEvent')
+      this.$emit('confEvent');
       // this.$emit('confEvent', { json: this.json });
-      this.$emit('closeDialog')
+      this.$emit('closeDialog');
     },
   },
   mounted() {
     document.addEventListener('click', (e) => {
-      let targetClass = e.target.className
+      let targetClass = e.target.className;
       // console.log(targetClass);
       if (targetClass == 'dialog' || targetClass == 'cancel') {
-        this.$emit('closeDialog')
+        this.$emit('closeDialog');
       }
-    })
+    });
   },
-}
+};
 </script>
 <style lang="scss" ref="stylesheet/scss">
 .dialog {

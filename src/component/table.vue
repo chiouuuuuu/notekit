@@ -10,28 +10,50 @@
           <div class="option" @click="setType(3)">已取消</div>
         </div>
       </div>
-      <input type="text" class="search-input" v-model="searchContent" placeholder="筛选关键词" />
+      <input
+        type="text"
+        class="search-input"
+        v-model="searchContent"
+        placeholder="筛选关键词"
+      />
     </div>
     <table class="table-content">
       <thead>
         <tr>
           <th align="center" :style="{ width: '3%', minWidth: '70px' }">#</th>
-          <th align="center" :style="{ width: '20%', minWidth: '70px' }">事项</th>
-          <th align="center" :style="{ width: '5%', minWidth: '70px' }">类型</th>
-          <th align="center" :style="{ width: '1%', minWidth: '90px' }">操作</th>
+          <th align="center" :style="{ width: '20%', minWidth: '70px' }">
+            事项
+          </th>
+          <th align="center" :style="{ width: '5%', minWidth: '70px' }">
+            类型
+          </th>
+          <th align="center" :style="{ width: '1%', minWidth: '90px' }">
+            操作
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item, index) in nodes" :key="item.id">
           <td align="center">{{ index + 1 }}</td>
           <td v-if="item.edit">
-            <input class="edit-input" type="text" v-model="editContent" @keyup.enter="conf(item)" />
+            <input
+              class="edit-input"
+              type="text"
+              v-model="editContent"
+              @keyup.enter="conf(item)"
+            />
           </td>
-          <td v-else :style="{ paddingLeft: '10px' }" @dblclick="edit(item)">{{ item.content }}</td>
+          <td v-else :style="{ paddingLeft: '10px' }" @dblclick="edit(item)">
+            {{ item.content }}
+          </td>
           <td align="center">{{ getType(item.type) }}</td>
           <td align="center">
-            <button @click="conf(item)" v-if="item.edit" class="btn conf">确定</button>
-            <button @click="edit(item)" v-else class="btn edit btn-theme">编辑</button>
+            <button @click="conf(item)" v-if="item.edit" class="btn conf">
+              确定
+            </button>
+            <button @click="edit(item)" v-else class="btn edit btn-theme">
+              编辑
+            </button>
             <button class="btn del">删除</button>
           </td>
         </tr>
@@ -48,64 +70,64 @@ export default {
       type: 0,
       editContent: '',
       searchContent: '',
-    }
+    };
   },
   methods: {
     edit(item) {
-      for (let i = 0; i < this.nodes.length; i++) this.nodes[i].edit = false
+      for (let i = 0; i < this.nodes.length; i++) this.nodes[i].edit = false;
       // console.log(item);
-      item.edit = true
-      console.log(item)
-      this.editContent = item.content
+      item.edit = true;
+      console.log(item);
+      this.editContent = item.content;
     },
     conf(item) {
-      item.edit = false
+      item.edit = false;
       this.$store.dispatch('editEvent', {
         id: item.id,
         content: this.editContent,
-      })
+      });
     },
     getType(type) {
-      let res = ''
+      let res = '';
       if (type == 1) {
-        res = '未完成'
+        res = '未完成';
       } else if (type == 2) {
-        res = '已完成'
+        res = '已完成';
       } else if (type == 3) {
-        res = '已取消'
+        res = '已取消';
       }
-      return res
+      return res;
     },
     setType(type) {
-      this.active = false
-      this.type = type
+      this.active = false;
+      this.type = type;
     },
   },
   computed: {
     nodes() {
-      let list = []
+      let list = [];
       for (let i = 1; i <= 3; i++) {
-        let l = this.$store.getters.getListByType(i)
-        console.log(l)
-        list.push(...l)
+        let l = this.$store.getters.getListByType(i);
+        console.log(l);
+        list.push(...l);
       }
-      let type = this.type
-      let res = null
-      let searchContent = this.searchContent.trim()
+      let type = this.type;
+      let res = null;
+      let searchContent = this.searchContent.trim();
 
       res = list.filter((item) => {
         if (
           (type == 0 || type == item.type) &&
           item.content.indexOf(searchContent) != -1
         ) {
-          return item
+          return item;
         }
-      })
+      });
       // console.log(res);
-      return res
+      return res;
     },
   },
-}
+};
 </script>
 <style lang="scss" ref="stylesheet/scsss">
 .table {

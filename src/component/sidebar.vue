@@ -1,9 +1,10 @@
 <template>
   <div class="sidebar" :class="{ close: !isShowSidebarProp }">
-    <p :style="{ color: '#fff' }">{{ isShowSidebarProp }}</p>
     <ul>
       <li>
-        <button class="btn" @click="showTheme">切换主题</button>
+        <button class="btn" @click="showTheme" @closeTheme="closeTheme">
+          切换主题
+        </button>
       </li>
       <li>
         <button class="btn" @click="download">下载数据</button>
@@ -25,34 +26,41 @@ export default {
   name: 'sidebar',
   props: ['isShowSidebarProp'],
   data() {
-    return {}
+    return {};
   },
   methods: {
+    closeTheme() {
+      this.$emit('closeTheme');
+    },
     showTheme() {
-      this.$emit('showTheme')
+      this.$emit('showTheme');
     },
     download() {
-      let domA = document.createElement('a')
-      let blob = new Blob([JSON.stringify(this.$store.state)])
-      console.log(blob)
-      domA.download = 'nodepad.json'
-      domA.href = URL.createObjectURL(blob)
-      domA.click()
-      domA = null
-      URL.revokeObjectURL(blob)
+      let domA = document.createElement('a');
+      let blob = new Blob([JSON.stringify(this.$store.state)]);
+      console.log(blob);
+      domA.download = 'nodepad.json';
+      domA.href = URL.createObjectURL(blob);
+      domA.click();
+      domA = null;
+      URL.revokeObjectURL(blob);
+      this.$loading('稍等，即将下载');
+      setTimeout(() => {
+        this.$loading.close();
+      }, 2000);
     },
     updata() {
-      this.$emit('updataDialog')
+      this.$emit('updataDialog');
     },
     table() {
-      this.$emit('table')
+      this.$emit('table');
     },
     clear() {
-      console.log('clear')
-      this.$emit('clear')
+      console.log('clear');
+      this.$emit('clear');
     },
   },
-}
+};
 </script>
 <style lang="scss" ref="stylesheet/scss">
 .sidebar {

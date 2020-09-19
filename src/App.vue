@@ -13,23 +13,25 @@
           <input type="file" accept="application/json" @change="upload" />
           <span>点击上传</span>
         </button>
-        <p class="file-name">{{fileName}}</p>
-        <p v-if="fileTip.isShow">{{fileTip.content}}</p>
+        <p class="file-name">{{ fileName }}</p>
+        <p v-if="fileTip.isShow">{{ fileTip.content }}</p>
         <div v-if="fileTip.list.isShowList">
           <p class="p-title">
             <span class="s-title">主题:</span>
-            {{fileTip.list.theme}}
+            {{ fileTip.list.theme }}
           </p>
           <p class="p-title">
             <span class="s-title">列表:</span>
-            共{{fileTip.list.counter}}个事件
+            共{{ fileTip.list.counter }}个事件
           </p>
           <p
             class="content-list"
             v-for="item in fileTip.list.contentList"
             :key="item.id"
-          >{{item.content}}</p>
-          <p class="confime-tip">确定要替换吗？</p>
+          >
+            {{ item.content }}
+          </p>
+          <p class="confirm-tip">确定要替换吗？</p>
         </div>
       </com-dialog>
     </transition>
@@ -49,6 +51,7 @@
       <com-sidebar
         :isShowSidebarProp="isShowSidebar"
         @showTheme="themeSwitch"
+        @closeTheme="closeTheme"
         @table="editTableSwitch"
         @clear="clearEvent"
         @updataDialog="updataDialog"
@@ -58,13 +61,13 @@
   </div>
 </template>
 <script>
-import comHeader from './component/header.vue'
-import comAdd from './component/add.vue'
-import comList from './component/list.vue'
-import comTheme from './component/theme.vue'
-import comSidebar from './component/sidebar.vue'
-import comTable from './component/table.vue'
-import comDialog from './component/dialog.vue'
+import comHeader from './component/header.vue';
+import comAdd from './component/add.vue';
+import comList from './component/list.vue';
+import comTheme from './component/theme.vue';
+import comSidebar from './component/sidebar.vue';
+import comTable from './component/table.vue';
+import comDialog from './component/dialog.vue';
 
 export default {
   components: {
@@ -109,79 +112,78 @@ export default {
           contentList: [],
         },
       },
-    }
+    };
   },
   methods: {
-    test() {
-      console.log('test')
-    },
-    test2() {
-      console.log('test2')
-    },
-    uploadFile() {},
+    // uploadFile() {},
     upload(e) {
-      let files = e.srcElement.files
+      let files = e.srcElement.files;
       // console.log(files)
-      let file = files[0]
-      this.fileName = '选择了文件：' + file.name
-      this.fileTip.isShow = true
-      this.fileTip.content = ''
-      let reader = new FileReader()
-      reader.readAsText(file)
+      let file = files[0];
+      this.fileName = '选择了文件：' + file.name;
+      this.fileTip.isShow = true;
+      this.fileTip.content = '';
+      let reader = new FileReader();
+      reader.readAsText(file);
       reader.onload = (ee) => {
         // console.log(ee.target.result)
-        let json = ee.target.result
-        this.json = json
-        console.log(json)
+        let json = ee.target.result;
+        this.json = json;
+        console.log(json);
         if (
           json.indexOf('eventStorage' != -1) &&
           json.indexOf('themeStorage') != -1
         ) {
-          this.fileTip.content = '该文件保存的主题和列表：'
-          let jsonObj = JSON.parse(json)
-          this.fileTip.list.isShowList = true
-          this.fileTip.list.counter = jsonObj.eventStorage.event.length
-          this.fileTip.list.theme = jsonObj.themeStorage.theme
+          this.fileTip.content = '该文件保存的主题和列表：';
+          let jsonObj = JSON.parse(json);
+          this.fileTip.list.isShowList = true;
+          this.fileTip.list.counter = jsonObj.eventStorage.event.length;
+          this.fileTip.list.theme = jsonObj.themeStorage.theme;
           if (this.fileTip.list.counter > 5) {
             this.fileTip.list.contentList = jsonObj.eventStorage.event.slice(
               0,
               5
-            )
-            this.fileTip.list.contentList.push({ id: -1, content: '...' })
+            );
+            this.fileTip.list.contentList.push({ id: -1, content: '...' });
           } else {
-            this.fileTip.list.contentList = jsonObj.eventStorage.event
+            this.fileTip.list.contentList = jsonObj.eventStorage.event;
           }
         } else {
-          this.fileTip.list.isShowList = false
-          this.fileTip.content = '该文件不能用来解析为notepad记录'
+          this.fileTip.list.isShowList = false;
+          this.fileTip.content = '该文件不能用来解析为notepad记录';
         }
-      }
+      };
     },
     arrayString(arr) {
-      if (arr.length == 0) return ''
-      let str = ''
+      if (arr.length == 0) return '';
+      let str = '';
       for (let i = 0; i < arr.length; i++) {
-        let item = arr[i]
+        let item = arr[i];
         // console.log(item);
-        let s
-        if (item.tag != 'input') s = `<${item.tag}>${item.value}</${item.tag}>`
+        let s;
+        if (item.tag != 'input') s = `<${item.tag}>${item.value}</${item.tag}>`;
         else {
-          s = '<input type="file" accept="application/json" @change="upload">'
+          s = '<input type="file" accept="application/json" @change="upload">';
         }
-        str += s
+        str += s;
       }
-      return str
+      return str;
     },
     //=============sidebar event==============
     sidebarSwitch() {
       // console.log('s');
-      this.isShowSidebar = !this.isShowSidebar
+      this.isShowSidebar = !this.isShowSidebar;
     },
     themeSwitch() {
-      this.isShowTheme = !this.isShowTheme
+      this.isShowTheme = !this.isShowTheme;
+    },
+    closeTheme() {
+      console.log('get colse');
+      this.isShowTheme = false;
+      this.isShowSidebar = true;
     },
     updataDialog() {
-      let dialog = this.dialog
+      let dialog = this.dialog;
       let file = {
         isShow: false,
         content: '',
@@ -191,68 +193,69 @@ export default {
           theme: '',
           contentList: [],
         },
-      }
-      dialog.show = true
-      dialog.title = '导入数据'
+      };
+      dialog.show = true;
+      dialog.title = '导入数据';
       dialog.content = [
         {
           tag: 'input',
         },
-      ]
-      dialog.event = 'updataConf'
-      this.dialog = dialog
-      this.fileTip = file
-      this.fileName = '未选择任何文件'
+      ];
+      dialog.event = 'updataConf';
+      this.dialog = dialog;
+      this.fileTip = file;
+      this.fileName = '未选择任何文件';
     },
     editTableSwitch() {
-      this.isShowEditTable = !this.isShowEditTable
+      this.isShowEditTable = !this.isShowEditTable;
     },
     clearEvent() {
-      console.log('clear2')
-      this.$store.dispatch('clearEvent')
+      console.log('clear2');
+      this.$store.dispatch('clearEvent');
     },
     // ============dialog event===============
     showDialog() {
-      this.dialog.show = true
+      this.dialog.show = true;
     },
     closeDialog() {
-      this.dialog.show = false
+      this.dialog.show = false;
     },
     conf(methodName, param) {
-      console.log(methodName)
-      console.log(param)
-      this[methodName](param)
+      console.log(methodName);
+      console.log(param);
+      this[methodName](param);
     },
     updataConf() {
       // console.log(param)
-      this.$store.dispatch('uploadEvent', this.json)
-      this.$store.dispatch('uploadTheme', this.json)
+      this.$store.dispatch('uploadEvent', this.json);
+      this.$store.dispatch('uploadTheme', this.json);
     },
   },
   computed: {
     getTheme() {
-      let theme = this.$store.getters.getTheme
-      return theme
+      let theme = this.$store.getters.getTheme;
+      return theme;
     },
   },
   mounted() {
-    document.addEventListener('click', (e) => {
-      let target = e.target.className
-      if (
-        target == 'desc' ||
-        target == 't-btn' ||
-        target == 'btn' ||
-        target == 'color-rect' ||
-        target == 'text'
-      ) {
-        return
-      }
-      this.isShowSidebar = false
-      this.isShowTheme = false
-    })
-    console.log(this.$store)
+    // document.addEventListener('click', (e) => {
+    //   let target = e.target.className;
+    //   if (
+    //     target == 'desc' ||
+    //     target == 't-btn' ||
+    //     target == 'btn' ||
+    //     target == 'color-rect' ||
+    //     target == 'text' ||
+    //     target == 'close-btn'
+    //   ) {
+    //     return;
+    //   }
+    //   this.isShowSidebar = false;
+    //   this.isShowTheme = false;
+    // });
+    // console.log(this.$store);
   },
-}
+};
 </script>
 <style lang="scss" ref="stylesheet/scss" src="../static/theme.scss"></style>
 <style lang="scss" ref="stylesheet/scss">
@@ -307,7 +310,7 @@ button {
   padding: 2px;
   color: #7d7d7d;
 }
-.confime-tip {
+.confirm-tip {
   margin-top: 20px;
   font-size: 15px;
 }

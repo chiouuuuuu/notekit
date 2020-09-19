@@ -2,7 +2,7 @@
   <div class="list">
     <div class="list-item">
       <div class="list-tab" @click="change(1)">
-        <span>未完成{{ isToDoCallapse.state }}</span>
+        <span>未完成</span>
         <span class="arrow" :style="isToDoCallapse.arrowStyle"></span>
       </div>
       <div class="list-box" :style="isToDoCallapse.style">
@@ -75,50 +75,50 @@ export default {
           transform: 'rotate(135deg)',
         },
       },
-    }
+    };
   },
   methods: {
     moveEvent(id, type) {
-      this.$store.dispatch('moveEvent', { id, type })
+      this.$store.dispatch('moveEvent', { id, type });
     },
     change(index) {
-      let type = null
-      if (index == 1) type = 'ToDo'
-      else if (index == 2) type = 'Done'
-      else if (index == 3) type = 'Cancel'
-      let stateStr = `is${type}Callapse`
+      let type = null;
+      if (index == 1) type = 'ToDo';
+      else if (index == 2) type = 'Done';
+      else if (index == 3) type = 'Cancel';
+      let stateStr = `is${type}Callapse`;
       if (this[stateStr].state) {
         //state 为 true 折叠时 => false 未折叠 即将展开
-        this[stateStr].style.height = this['list' + type].length * 50 + 'px'
-        this[stateStr].arrowStyle.transform = 'rotate(135deg)'
+        this[stateStr].style.height = this['list' + type].length * 50 + 'px';
+        this[stateStr].arrowStyle.transform = 'rotate(135deg)';
         setTimeout(() => {
-          this[stateStr].style.height = 'auto'
-        }, 300)
+          this[stateStr].style.height = 'auto';
+        }, 300);
       } else {
-        this[stateStr].style.height = this['list' + type].length * 50 + 'px'
-        this[stateStr].arrowStyle.transform = 'rotate(45deg)'
+        this[stateStr].style.height = this['list' + type].length * 50 + 'px';
+        this[stateStr].arrowStyle.transform = 'rotate(45deg)';
         setTimeout(() => {
-          this[stateStr].style.height = '0px'
-        }, 0)
+          this[stateStr].style.height = '0px';
+        }, 0);
       }
-      this[stateStr].state = !this[stateStr].state
+      this[stateStr].state = !this[stateStr].state;
     },
   },
   computed: {
     listToDo() {
-      let list = this.$store.getters.getListByType(1)
-      return list
+      let list = this.$store.getters.getListByType(1);
+      return list;
     },
     listDone() {
-      let list = this.$store.getters.getListByType(2)
-      return list
+      let list = this.$store.getters.getListByType(2);
+      return list;
     },
     listCancel() {
-      let list = this.$store.getters.getListByType(3)
-      return list
+      let list = this.$store.getters.getListByType(3);
+      return list;
     },
   },
-}
+};
 </script>
 <style lang="scss" ref="stylesheet/sass">
 // .callapse {

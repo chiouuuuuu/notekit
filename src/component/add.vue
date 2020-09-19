@@ -2,6 +2,7 @@
   <div class="add">
     <input
       type="text"
+      placeholder="添加内容"
       class="add-input"
       v-model="content"
       @keyup.enter="submit"
@@ -32,7 +33,7 @@ export default {
       if (content) {
         params.content = content;
         this.$store.dispatch('addEvent', params);
-        console.log('添加成功');
+        this.$toast('添加成功');
       }
       this.content = '';
     },

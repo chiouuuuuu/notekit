@@ -1,7 +1,8 @@
 <template>
   <div class="themebar" :class="{ close: !isShowThemeProp }">
-    <span class="icon-close"></span>
-    <p :style="{ color: '#fff' }">{{ isShowThemeProp }}</p>
+    <button class="close-btn" @click="closeTheme">
+      <span class="icon-close"></span>
+    </button>
     <ul>
       <li v-for="item in colors">
         <button class="btn" @click="setColor(item.name)">
@@ -45,15 +46,19 @@ export default {
           color: '#26b6be',
         },
       ],
-    }
+    };
   },
   methods: {
     setColor(color) {
-      console.log('setcolor')
-      this.$store.dispatch('switchTheme', { theme: color })
+      console.log('setcolor');
+      this.$store.dispatch('switchTheme', { theme: color });
+    },
+    closeTheme() {
+      console.log('get close');
+      this.$emit('closeTheme');
     },
   },
-}
+};
 </script>
 <style lang="scss" ref="stylesheet/scss">
 .themebar {
@@ -91,6 +96,30 @@ export default {
   }
   &.close {
     transform: translateX(-290px);
+  }
+  .close-btn {
+    border: 0;
+    background: transparent;
+    position: absolute;
+    right: 20px;
+    top: 80px;
+  }
+  .icon-close {
+    // position: absolute;
+    // right: 20px;
+    display: inline-block;
+    width: 15px;
+    height: 2px;
+    background: #333;
+    transform: rotate(45deg);
+  }
+  .icon-close::after {
+    content: '';
+    display: block;
+    width: 15px;
+    height: 2px;
+    background: #333;
+    transform: rotate(-90deg);
   }
 }
 </style>
