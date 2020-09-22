@@ -3,8 +3,9 @@
     <h1>
       <span>note kit</span>
       <slot></slot>
-      <button @click="showEditTable">table</button>
-      <button @click="showDialog">dialog</button>
+      <button @click="showEditTable">
+        {{ isShowEditTable ? 'table' : 'list' }}
+      </button>
       <a class="t-btn" @click="showSidebar">
         <span class="desc"></span>
       </a>
@@ -14,15 +15,13 @@
 <script>
 export default {
   name: 'com-header',
+  props: ['isShowEditTable'],
   methods: {
     showSidebar() {
       this.$emit('showSidebar');
     },
     showEditTable() {
       this.$emit('showEditTable');
-    },
-    showDialog() {
-      this.$emit('updataDialog');
     },
   },
 };

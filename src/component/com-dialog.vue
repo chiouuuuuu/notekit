@@ -37,7 +37,6 @@ export default {
     console.log('[dialog]', this.title);
     document.addEventListener('click', (e) => {
       let targetClass = e.target.className;
-      console.log(targetClass);
       if (targetClass == 'dialog' || targetClass == 'cancel') {
         this.$emit('closeDialog');
       }

@@ -1,48 +1,59 @@
 <template>
-  <div class="list">
-    <div class="list-item">
-      <div class="list-tab" @click="change(1)">
-        <span>未完成</span>
-        <span class="arrow" :style="isToDoCallapse.arrowStyle"></span>
-      </div>
-      <div class="list-box" :style="isToDoCallapse.style">
-        <div class="todo-item" v-for="item in listToDo" :key="item.id">
-          <input type="checkbox" @click="moveEvent(item.id, 2)" />
-          <span>{{ item.content }}</span>
-          <button @click="moveEvent(item.id, 3)" class="btn">cancel</button>
+  <div class="list-view">
+    <com-add></com-add>
+    <div class="list">
+      <div class="list-item">
+        <div class="list-tab" @click="change(1)">
+          <span>未完成</span>
+          <span class="arrow" :style="isToDoCallapse.arrowStyle"></span>
+        </div>
+        <div class="list-box" :style="isToDoCallapse.style">
+          <div class="todo-item" v-for="item in listToDo" :key="item.id">
+            <input type="checkbox" @click="moveEvent(item.id, 2)" />
+            <span>{{ item.content }}</span>
+            <button @click="moveEvent(item.id, 3)" class="btn">cancel</button>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="list-item">
-      <div class="list-tab" @click="change(2)">
-        <span>已完成</span>
-        <span class="arrow" :style="isDoneCallapse.arrowStyle"></span>
-      </div>
-      <div class="list-box" :style="isDoneCallapse.style">
-        <div class="done-list-item" v-for="item in listDone" :key="item.id">
-          <input type="checkbox" checked @click="moveEvent(item.id, 1)" />
-          <span>{{ item.content }}</span>
-          <span class="date">{{ item.time }}</span>
+      <div class="list-item">
+        <div class="list-tab" @click="change(2)">
+          <span>已完成</span>
+          <span class="arrow" :style="isDoneCallapse.arrowStyle"></span>
+        </div>
+        <div class="list-box" :style="isDoneCallapse.style">
+          <div class="done-list-item" v-for="item in listDone" :key="item.id">
+            <input type="checkbox" checked @click="moveEvent(item.id, 1)" />
+            <span>{{ item.content }}</span>
+            <span class="date">{{ item.time }}</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="list-item">
-      <div class="list-tab" @click="change(3)">
-        <span>已取消</span>
-        <span class="arrow" :style="isCancelCallapse.arrowStyle"></span>
-      </div>
-      <div class="list-box" :style="isCancelCallapse.style">
-        <div class="cancel-list-item" v-for="item in listCancel" :key="item.id">
-          <span>{{ item.content }}</span>
-          <button class="btn" @click="moveEvent(item.id, 1)">resume</button>
+      <div class="list-item">
+        <div class="list-tab" @click="change(3)">
+          <span>已取消</span>
+          <span class="arrow" :style="isCancelCallapse.arrowStyle"></span>
+        </div>
+        <div class="list-box" :style="isCancelCallapse.style">
+          <div
+            class="cancel-list-item"
+            v-for="item in listCancel"
+            :key="item.id"
+          >
+            <span>{{ item.content }}</span>
+            <button class="btn" @click="moveEvent(item.id, 1)">resume</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import comAdd from './the-add.vue';
 export default {
   name: 'list',
+  components: {
+    'com-add': comAdd,
+  },
   data() {
     return {
       isToDoCallapse: {

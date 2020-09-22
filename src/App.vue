@@ -35,6 +35,7 @@
       </div>
     </com-dialog>
     <com-header
+      :isShowEditTable="isShowEditTable"
       @showSidebar="sidebarSwitch"
       @showEditTable="editTableSwitch"
       @updataDialog="updataDialog"
@@ -43,7 +44,6 @@
       <com-table></com-table>
     </section>
     <section class="container" v-else>
-      <com-add></com-add>
       <com-list></com-list>
     </section>
     <section>
@@ -62,13 +62,13 @@
   </div>
 </template>
 <script>
-import comHeader from './component/header.vue';
-import comAdd from './component/add.vue';
-import comList from './component/list.vue';
-import comTheme from './component/theme.vue';
-import comSidebar from './component/sidebar.vue';
-import comTable from './component/table.vue';
-import comDialog from './component/dialog.vue';
+import comHeader from './component/the-header.vue';
+import comAdd from './component/the-add.vue';
+import comList from './component/the-list.vue';
+import comTheme from './component/the-theme.vue';
+import comSidebar from './component/the-sidebar.vue';
+import comTable from './component/the-table.vue';
+import comDialog from './component/com-dialog.vue';
 
 export default {
   components: {
@@ -84,7 +84,7 @@ export default {
     return {
       isShowSidebar: false,
       isShowTheme: false,
-      isShowEditTable: true,
+      isShowEditTable: false,
       dialog: {
         show: false,
         title: '',
@@ -217,8 +217,8 @@ export default {
       this.dialog.show = false;
     },
     conf(methodName, param) {
-      console.log(methodName);
-      console.log(param);
+      console.log('[conf methodName]', methodName);
+      console.log('[conf param]', param);
       this[methodName](param);
     },
     updataConf() {
@@ -235,14 +235,12 @@ export default {
   mounted() {
     document.addEventListener('click', (e) => {
       let target = e.target.className;
-      console.log(target);
+      console.log('[class name]', target);
       if (target.indexOf('back') != -1) {
         this.isShowSidebar = false;
         this.isShowTheme = false;
-        return;
       }
     });
-    console.log(this.$store);
   },
 };
 </script>

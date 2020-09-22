@@ -16,7 +16,7 @@ export default {
   name: 'com-add',
   data() {
     return {
-      content: '123',
+      content: '',
     };
   },
   methods: {

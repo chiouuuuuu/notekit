@@ -73,7 +73,7 @@
   </div>
 </template>
 <script>
-import ComDialog from './dialog.vue';
+import ComDialog from './com-dialog.vue';
 export default {
   name: 'ctable',
   components: {
@@ -134,7 +134,7 @@ export default {
     confDel() {
       this.$store.dispatch('delEvent', this.item);
       this.item = null;
-      this.$toast('删除成功');  
+      this.$toast('删除成功');
     },
   },
   computed: {
