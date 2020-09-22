@@ -38,8 +38,7 @@
       @showSidebar="sidebarSwitch"
       @showEditTable="editTableSwitch"
       @updataDialog="updataDialog"
-      >{{ isShowSidebar }}</com-header
-    >
+    ></com-header>
     <section class="table" v-if="isShowEditTable">
       <com-table></com-table>
     </section>

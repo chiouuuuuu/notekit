@@ -11,9 +11,11 @@
     </com-dialog>
     <div class="select-box">
       <div class="select-content">
-        <div class="select-value" @click="active = !active">筛选类型</div>
+        <div class="select-value" @click="active = !active">
+          {{ selectText }}
+        </div>
         <div class="select-body" :class="[active ? 'active' : 'hidden']">
-          <div class="option" @click="setType(0)">筛选类型</div>
+          <div class="option" @click="setType(0)">全部</div>
           <div class="option" @click="setType(1)">未完成</div>
           <div class="option" @click="setType(2)">已完成</div>
           <div class="option" @click="setType(3)">已取消</div>
@@ -85,6 +87,7 @@ export default {
       searchContent: '',
       isShowDelDialog: false,
       item: null,
+      selectText: '筛选类型',
     };
   },
   methods: {
@@ -110,12 +113,15 @@ export default {
         res = '已完成';
       } else if (type == 3) {
         res = '已取消';
+      } else {
+        res = '全部';
       }
       return res;
     },
     setType(type) {
       this.active = false;
       this.type = type;
+      this.selectText = this.getType(type);
     },
     del(item) {
       console.log(item);
@@ -128,6 +134,7 @@ export default {
     confDel() {
       this.$store.dispatch('delEvent', this.item);
       this.item = null;
+      this.$toast('删除成功');  
     },
   },
   computed: {
@@ -254,7 +261,8 @@ export default {
       width: 100%;
       padding: 0;
       border: 1px solid #000;
-      font-size: 22px;
+      font-size: 16px;
+      padding-left: 10px;
       // border-radius: 5px;
     }
     .edit-input:focus {
