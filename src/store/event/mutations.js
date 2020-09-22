@@ -45,14 +45,20 @@ export default {
     states.event.unshift(item);
     f.local_event.set(states);
   },
+  [type.DELEVENT](state, param) {
+    console.log('[mutation]', param);
+    for (let i = 0; i < state.event.length; i++) {
+      if (state.event[i].id == param.id) {
+        state.event.splice(i, 1);
+      }
+    }
+  },
   [type.CLEAREVENT](state, param) {
     state.event = [];
     f.local_event.clear();
   },
   [type.UPLOADEVENT](state, param) {
     let jsonObj = JSON.parse(param).eventStorage;
-    // console.log(state);
-    // console.log(jsonObj);
     state.event = jsonObj.event;
     state.count = jsonObj.count;
     f.local_event.set(state);

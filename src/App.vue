@@ -1,45 +1,45 @@
 <template>
   <div id="app" :class="[getTheme]">
-    <transition name="dialog">
-      <com-dialog
-        v-if="dialog.show"
-        :title="dialog.title"
-        :content="arrayString(dialog.content)"
-        :isShowConfBtn="fileTip.list.isShowList"
-        @closeDialog="closeDialog"
-        @confEvent="conf('updataConf')"
-      >
-        <button class="file-btn" @click="uploadFile">
-          <input type="file" accept="application/json" @change="upload" />
-          <span>点击上传</span>
-        </button>
-        <p class="file-name">{{ fileName }}</p>
-        <p v-if="fileTip.isShow">{{ fileTip.content }}</p>
-        <div v-if="fileTip.list.isShowList">
-          <p class="p-title">
-            <span class="s-title">主题:</span>
-            {{ fileTip.list.theme }}
-          </p>
-          <p class="p-title">
-            <span class="s-title">列表:</span>
-            共{{ fileTip.list.counter }}个事件
-          </p>
-          <p
-            class="content-list"
-            v-for="item in fileTip.list.contentList"
-            :key="item.id"
-          >
-            {{ item.content }}
-          </p>
-          <p class="confirm-tip">确定要替换吗？</p>
-        </div>
-      </com-dialog>
-    </transition>
+    <div class="back" v-show="isShowSidebar"></div>
+    <com-dialog
+      :isShowDialog="dialog.show"
+      :title="dialog.title"
+      :content="arrayString(dialog.content)"
+      :isShowConfBtn="fileTip.list.isShowList"
+      @closeDialog="closeDialog"
+      @confEvent="conf('updataConf')"
+    >
+      <button class="file-btn">
+        <input type="file" accept="application/json" @change="upload" />
+        <span>点击上传</span>
+      </button>
+      <p class="file-name">{{ fileName }}</p>
+      <p v-if="fileTip.isShow">{{ fileTip.content }}</p>
+      <div v-if="fileTip.list.isShowList">
+        <p class="p-title">
+          <span class="s-title">主题:</span>
+          {{ fileTip.list.theme }}
+        </p>
+        <p class="p-title">
+          <span class="s-title">列表:</span>
+          共{{ fileTip.list.counter }}个事件
+        </p>
+        <p
+          class="content-list"
+          v-for="item in fileTip.list.contentList"
+          :key="item.id"
+        >
+          {{ item.content }}
+        </p>
+        <p class="confirm-tip">确定要替换吗？</p>
+      </div>
+    </com-dialog>
     <com-header
       @showSidebar="sidebarSwitch"
       @showEditTable="editTableSwitch"
       @updataDialog="updataDialog"
-    ></com-header>
+      >{{ isShowSidebar }}</com-header
+    >
     <section class="table" v-if="isShowEditTable">
       <com-table></com-table>
     </section>
@@ -51,12 +51,14 @@
       <com-sidebar
         :isShowSidebarProp="isShowSidebar"
         @showTheme="themeSwitch"
-        @closeTheme="closeTheme"
         @table="editTableSwitch"
         @clear="clearEvent"
         @updataDialog="updataDialog"
       ></com-sidebar>
-      <com-theme :isShowThemeProp="isShowTheme"></com-theme>
+      <com-theme
+        :isShowThemeProp="isShowTheme"
+        @closeTheme="closeTheme"
+      ></com-theme>
     </section>
   </div>
 </template>
@@ -81,10 +83,9 @@ export default {
   },
   data() {
     return {
-      // true 为关闭
       isShowSidebar: false,
       isShowTheme: false,
-      isShowEditTable: false,
+      isShowEditTable: true,
       dialog: {
         show: false,
         title: '',
@@ -115,7 +116,6 @@ export default {
     };
   },
   methods: {
-    // uploadFile() {},
     upload(e) {
       let files = e.srcElement.files;
       // console.log(files)
@@ -171,14 +171,12 @@ export default {
     },
     //=============sidebar event==============
     sidebarSwitch() {
-      // console.log('s');
       this.isShowSidebar = !this.isShowSidebar;
     },
     themeSwitch() {
       this.isShowTheme = !this.isShowTheme;
     },
     closeTheme() {
-      console.log('get colse');
       this.isShowTheme = false;
       this.isShowSidebar = true;
     },
@@ -210,7 +208,6 @@ export default {
       this.isShowEditTable = !this.isShowEditTable;
     },
     clearEvent() {
-      console.log('clear2');
       this.$store.dispatch('clearEvent');
     },
     // ============dialog event===============
@@ -226,7 +223,6 @@ export default {
       this[methodName](param);
     },
     updataConf() {
-      // console.log(param)
       this.$store.dispatch('uploadEvent', this.json);
       this.$store.dispatch('uploadTheme', this.json);
     },
@@ -238,22 +234,16 @@ export default {
     },
   },
   mounted() {
-    // document.addEventListener('click', (e) => {
-    //   let target = e.target.className;
-    //   if (
-    //     target == 'desc' ||
-    //     target == 't-btn' ||
-    //     target == 'btn' ||
-    //     target == 'color-rect' ||
-    //     target == 'text' ||
-    //     target == 'close-btn'
-    //   ) {
-    //     return;
-    //   }
-    //   this.isShowSidebar = false;
-    //   this.isShowTheme = false;
-    // });
-    // console.log(this.$store);
+    document.addEventListener('click', (e) => {
+      let target = e.target.className;
+      console.log(target);
+      if (target.indexOf('back') != -1) {
+        this.isShowSidebar = false;
+        this.isShowTheme = false;
+        return;
+      }
+    });
+    console.log(this.$store);
   },
 };
 </script>
@@ -275,14 +265,6 @@ button {
 }
 ::-webkit-scrollbar {
   width: 0;
-}
-.dialog-enter-active,
-.dialog-leave-active {
-  transition: opacity 0.3s;
-}
-.dialog-enter,
-.dialog-leave-to {
-  opacity: 0;
 }
 .file-btn {
   width: 80px;
@@ -324,5 +306,14 @@ button {
   /* border: 1px; */
   margin-right: 10px;
   padding: 2px;
+}
+.back {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  position: fixed;
+  top: 0px;
+  left: 290px;
+  z-index: 1;
 }
 </style>

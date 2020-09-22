@@ -54,7 +54,7 @@ export default {
       this.$store.dispatch('switchTheme', { theme: color });
     },
     closeTheme() {
-      console.log('get close');
+      // console.log('get close');
       this.$emit('closeTheme');
     },
   },

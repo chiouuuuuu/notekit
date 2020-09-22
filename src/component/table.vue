@@ -1,5 +1,14 @@
 <template>
   <div class="table">
+    <com-dialog
+      :isShowDialog="isShowDelDialog"
+      @closeDialog="closeDialog"
+      title="删除"
+      :isShowConfBtn="true"
+      @confEvent="confDel"
+    >
+      <p>确定要删除该条记录</p>
+    </com-dialog>
     <div class="select-box">
       <div class="select-content">
         <div class="select-value" @click="active = !active">筛选类型</div>
@@ -54,7 +63,7 @@
             <button @click="edit(item)" v-else class="btn edit btn-theme">
               编辑
             </button>
-            <button class="btn del">删除</button>
+            <button class="btn del" @click="del(item)">删除</button>
           </td>
         </tr>
       </tbody>
@@ -62,14 +71,20 @@
   </div>
 </template>
 <script>
+import ComDialog from './dialog.vue';
 export default {
   name: 'ctable',
+  components: {
+    'com-dialog': ComDialog,
+  },
   data() {
     return {
       active: false,
       type: 0,
       editContent: '',
       searchContent: '',
+      isShowDelDialog: false,
+      item: null,
     };
   },
   methods: {
@@ -102,13 +117,24 @@ export default {
       this.active = false;
       this.type = type;
     },
+    del(item) {
+      console.log(item);
+      this.item = item;
+      this.isShowDelDialog = !this.isShowDelDialog;
+    },
+    closeDialog() {
+      this.isShowDelDialog = false;
+    },
+    confDel() {
+      this.$store.dispatch('delEvent', this.item);
+      this.item = null;
+    },
   },
   computed: {
     nodes() {
       let list = [];
       for (let i = 1; i <= 3; i++) {
         let l = this.$store.getters.getListByType(i);
-        console.log(l);
         list.push(...l);
       }
       let type = this.type;
@@ -123,7 +149,6 @@ export default {
           return item;
         }
       });
-      // console.log(res);
       return res;
     },
   },

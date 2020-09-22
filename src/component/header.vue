@@ -2,6 +2,7 @@
   <header>
     <h1>
       <span>note kit</span>
+      <slot></slot>
       <button @click="showEditTable">table</button>
       <button @click="showDialog">dialog</button>
       <a class="t-btn" @click="showSidebar">
