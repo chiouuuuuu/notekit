@@ -3,9 +3,9 @@
     <h1>
       <span>note kit</span>
       <slot></slot>
-      <button @click="showEditTable">
-        {{ isShowEditTable ? 'table' : 'list' }}
-      </button>
+      <base-button class="b-btn" @click="showEditTable" size="small">
+        {{ isShowEditTable ? '表格' : '列表' }}
+      </base-button>
       <a class="t-btn" @click="showSidebar">
         <span class="desc"></span>
       </a>
@@ -13,9 +13,13 @@
   </header>
 </template>
 <script>
+import baseButton from './base-button.vue';
 export default {
   name: 'com-header',
   props: ['isShowEditTable'],
+  components: {
+    'base-button': baseButton,
+  },
   methods: {
     showSidebar() {
       this.$emit('showSidebar');
@@ -28,6 +32,10 @@ export default {
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
+.b-btn {
+  margin-right: 10px;
+  border: 2px #0059ff solid;
+}
 header {
   width: 100%;
   height: 70px;

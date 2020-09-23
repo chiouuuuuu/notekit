@@ -60,10 +60,9 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './public/index.html',
     }),
   ],
 };
