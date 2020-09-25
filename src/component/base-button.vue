@@ -39,27 +39,27 @@ export default {
           'is-radius': this.radius,
           'is-plain': this.plain,
         },
-      ];
-      return res;
+      ]
+      return res
     },
   },
   methods: {
     handleClick(e) {
-      this.$emit('click', e);
+      this.$emit('click', e)
     },
   },
-};
+}
 </script>
 <style scoped>
 .btn {
   min-height: 30px;
-  min-width: 38px;
   border-radius: 3px;
   border: 1px solid #eee;
   outline: none;
+  box-sizing: border-box;
 }
 .btn-style-default {
-  color: #6495ed;
+  color: #666;
   background: #fff;
 }
 .btn-style-primary {
@@ -70,15 +70,16 @@ export default {
   border-radius: 5px;
 }
 .large {
-  padding: 12px 20px;
+  padding: 8px 18px;
   font-size: 16px;
 }
 .medium {
   padding: 8px 18px;
   font-size: 14px;
+  min-width: 68px;
 }
 .small {
-  padding: 8 px 20px;
+  padding: 2px 5px;
   font-size: 12px;
 }
 </style>

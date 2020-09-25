@@ -1,23 +1,19 @@
 <template>
   <div class="add">
-    <input
-      type="text"
-      placeholder="添加内容"
-      class="add-input"
-      v-model="content"
-      @keyup.enter="submit"
-    />
-    <button class="add-btn" @click="submit">submit</button>
+    <input type="text" placeholder="添加内容" class="add-input" v-model="content" @keyup.enter="submit" />
+    <base-button class="add-btn" @click="submit">提交</base-button>
   </div>
 </template>
 
 <script>
+import baseButton from './base-button.vue'
 export default {
   name: 'com-add',
+  components: { 'base-button': baseButton },
   data() {
     return {
       content: '',
-    };
+    }
   },
   methods: {
     submit() {
@@ -27,18 +23,18 @@ export default {
         content: '',
         time: '',
         edit: false,
-      };
-      let content = this.content.trim();
-      console.log(this.content);
-      if (content) {
-        params.content = content;
-        this.$store.dispatch('addEvent', params);
-        this.$toast('添加成功');
       }
-      this.content = '';
+      let content = this.content.trim()
+      console.log(this.content)
+      if (content) {
+        params.content = content
+        this.$store.dispatch('addEvent', params)
+        this.$toast('添加成功')
+      }
+      this.content = ''
     },
   },
-};
+}
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
@@ -64,7 +60,7 @@ export default {
   .add-btn {
     width: 80px;
     height: 40px;
-    line-height: 26px;
+    // line-height: 26px;
     // margin-left: 10px;
     color: #fff;
     background: #6495ed;

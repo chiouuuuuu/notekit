@@ -9,15 +9,19 @@
           </slot>
         </div>
         <div class="dialog-btn-group">
-          <button class="conf" v-if="isShowConfBtn" @click="conf">确定</button>
-          <button class="cancel">取消</button>
+          <base-button class="conf" v-if="isShowConfBtn" @click="conf">确定</base-button>
+          <base-button class="cancel" @click="close">取消</base-button>
         </div>
       </div>
     </div>
   </transition>
 </template>
 <script>
+import baseButton from './base-button.vue'
+
 export default {
+  name: 'com-dialog',
+  components: { 'base-button': baseButton },
   props: {
     isShowDialog: { type: Boolean, default: false },
     title: { type: String },
@@ -25,24 +29,27 @@ export default {
     isShowConfBtn: Boolean,
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     conf() {
-      this.$emit('confEvent');
-      this.$emit('closeDialog');
+      this.$emit('confEvent')
+      this.$emit('closeDialog')
+    },
+    close() {
+      this.$emit('closeDialog')
     },
   },
   mounted() {
-    console.log('[dialog]', this.title);
+    console.log('[dialog]', this.title)
     document.addEventListener('click', (e) => {
-      let targetClass = e.target.className;
+      let targetClass = e.target.className
       if (targetClass == 'dialog' || targetClass == 'cancel') {
-        this.$emit('closeDialog');
+        this.$emit('closeDialog')
       }
-    });
+    })
   },
-};
+}
 </script>
 <style lang="scss" ref="stylesheet/scss">
 .dialog-enter-active,

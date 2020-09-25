@@ -11,7 +11,7 @@
           <div class="todo-item" v-for="item in listToDo" :key="item.id">
             <input type="checkbox" @click="moveEvent(item.id, 2)" />
             <span>{{ item.content }}</span>
-            <button @click="moveEvent(item.id, 3)" class="btn">cancel</button>
+            <base-button @click="moveEvent(item.id, 3)" class="btn">取消</base-button>
           </div>
         </div>
       </div>
@@ -34,13 +34,9 @@
           <span class="arrow" :style="isCancelCallapse.arrowStyle"></span>
         </div>
         <div class="list-box" :style="isCancelCallapse.style">
-          <div
-            class="cancel-list-item"
-            v-for="item in listCancel"
-            :key="item.id"
-          >
+          <div class="cancel-list-item" v-for="item in listCancel" :key="item.id">
             <span>{{ item.content }}</span>
-            <button class="btn" @click="moveEvent(item.id, 1)">resume</button>
+            <base-button class="btn" @click="moveEvent(item.id, 1)">恢复</base-button>
           </div>
         </div>
       </div>
@@ -48,11 +44,13 @@
   </div>
 </template>
 <script>
-import comAdd from './the-add.vue';
+import baseButton from './base-button.vue'
+import comAdd from './the-add.vue'
 export default {
   name: 'list',
   components: {
     'com-add': comAdd,
+    'base-button': baseButton,
   },
   data() {
     return {
@@ -86,50 +84,50 @@ export default {
           transform: 'rotate(135deg)',
         },
       },
-    };
+    }
   },
   methods: {
     moveEvent(id, type) {
-      this.$store.dispatch('moveEvent', { id, type });
+      this.$store.dispatch('moveEvent', { id, type })
     },
     change(index) {
-      let type = null;
-      if (index == 1) type = 'ToDo';
-      else if (index == 2) type = 'Done';
-      else if (index == 3) type = 'Cancel';
-      let stateStr = `is${type}Callapse`;
+      let type = null
+      if (index == 1) type = 'ToDo'
+      else if (index == 2) type = 'Done'
+      else if (index == 3) type = 'Cancel'
+      let stateStr = `is${type}Callapse`
       if (this[stateStr].state) {
         //state 为 true 折叠时 => false 未折叠 即将展开
-        this[stateStr].style.height = this['list' + type].length * 50 + 'px';
-        this[stateStr].arrowStyle.transform = 'rotate(135deg)';
+        this[stateStr].style.height = this['list' + type].length * 50 + 'px'
+        this[stateStr].arrowStyle.transform = 'rotate(135deg)'
         setTimeout(() => {
-          this[stateStr].style.height = 'auto';
-        }, 300);
+          this[stateStr].style.height = 'auto'
+        }, 300)
       } else {
-        this[stateStr].style.height = this['list' + type].length * 50 + 'px';
-        this[stateStr].arrowStyle.transform = 'rotate(45deg)';
+        this[stateStr].style.height = this['list' + type].length * 50 + 'px'
+        this[stateStr].arrowStyle.transform = 'rotate(45deg)'
         setTimeout(() => {
-          this[stateStr].style.height = '0px';
-        }, 0);
+          this[stateStr].style.height = '0px'
+        }, 0)
       }
-      this[stateStr].state = !this[stateStr].state;
+      this[stateStr].state = !this[stateStr].state
     },
   },
   computed: {
     listToDo() {
-      let list = this.$store.getters.getListByType(1);
-      return list;
+      let list = this.$store.getters.getListByType(1)
+      return list
     },
     listDone() {
-      let list = this.$store.getters.getListByType(2);
-      return list;
+      let list = this.$store.getters.getListByType(2)
+      return list
     },
     listCancel() {
-      let list = this.$store.getters.getListByType(3);
-      return list;
+      let list = this.$store.getters.getListByType(3)
+      return list
     },
   },
-};
+}
 </script>
 <style lang="scss" ref="stylesheet/sass">
 // .callapse {
@@ -197,12 +195,12 @@ export default {
       }
       .btn {
         margin-right: 10px;
-        padding: 0 10px;
-        line-height: 30px;
-        color: #666;
-        font-size: 12px;
-        border: 1px solid #c0ccda;
-        background: #fff;
+        //   padding: 0 10px;
+        //   line-height: 30px;
+        //   color: #666;
+        //   font-size: 12px;
+        //   border: 1px solid #c0ccda;
+        //   background: #fff;
       }
     }
   }

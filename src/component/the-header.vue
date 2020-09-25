@@ -3,9 +3,7 @@
     <h1>
       <span>note kit</span>
       <slot></slot>
-      <base-button class="b-btn" @click="showEditTable" size="small">
-        {{ isShowEditTable ? '表格' : '列表' }}
-      </base-button>
+      <base-button class="b-btn" @click="showEditTable">{{ isShowEditTable ? '表格' : '列表' }}</base-button>
       <a class="t-btn" @click="showSidebar">
         <span class="desc"></span>
       </a>
@@ -13,7 +11,7 @@
   </header>
 </template>
 <script>
-import baseButton from './base-button.vue';
+import baseButton from './base-button.vue'
 export default {
   name: 'com-header',
   props: ['isShowEditTable'],
@@ -22,13 +20,13 @@ export default {
   },
   methods: {
     showSidebar() {
-      this.$emit('showSidebar');
+      this.$emit('showSidebar')
     },
     showEditTable() {
-      this.$emit('showEditTable');
+      this.$emit('showEditTable')
     },
   },
-};
+}
 </script>
 
 <style lang="scss" ref="stylesheet/scss">
